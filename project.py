@@ -74,6 +74,76 @@ class Table:
         self.__available = True
 
 
+class MenuItem:
+    def __init__(self, argItemCode, argName, argPrice):  # instantiates object
+        self.__code = argItemCode
+        self.__name = argName
+        self.__price = argPrice
+
+    def __str__(self):
+        return self.__code + ' ' + self.__name + ' ' + str(self.__price)
+
+
+class Menu:
+    def __init__(self, argMenu=[]):
+        self.__menu = argMenu
+        self.readMenu()
+
+    # def __add__(self, other):
+    #    self.__menu.append(other)
+
+    def getMenu(self):
+        return self.__menu
+
+    def readMenu(self):
+        try:
+            rFile = open("Menu.txt", 'rb')
+        except IOError:
+            print("missing menu menu.txt file.")
+            return self.__menu
+
+        # splits menu.txt by line
+        rawData = rFile.readlines()
+        rFile.close()
+
+        list1 = []
+        for i in rawData:
+            i = i.splitlines()
+            list1.append(i)  # puts all orders in an array
+
+        # this loop cleans up the text in menu.txt and puts the items in a new array
+        list2 = []
+        for item in list1:
+            item = str(item)
+            item = item.split(' ')
+            item[0] = item[0].strip(' \'[')
+            item[0] = item[0][2:len(item[0])]
+            item[2] = item[2].strip(' \']')
+            item[2] = float(item[2])
+            list2.append(item)
+
+        # this loop turns all orders into MenuItems
+        for k in range(0, len(list2), 1):
+            argCode = list2[k][0]
+            argName = list2[k][1]
+            argPrice = list2[k][2]
+            newMenuItem = MenuItem(argCode, argName, argPrice)
+            print(newMenuItem)
+            self.__menu.append(newMenuItem)
+
+        return self.__menu
+
+    def __str__(self):
+        for m in range(0, len(self.__menu), 1):
+            print(m)
+
+
+menu1 = Menu()
+menu1.readMenu()
+# for i in menu1.readMenu():
+#    print(i)
+
+
 def read_tables():
     # open table config file
     try:
@@ -105,57 +175,3 @@ def print_table():
     for i in table1:
         print(i)
 
-
-class MenuItem:
-    def __init__(self, argItemCode, argName, argPrice):  # instantiates object
-        self.__code = argItemCode
-        self.__name = argName
-        self.__price = argPrice
-
-
-class Menu:
-    def __init__(self, argMenu=[]):
-        self.__menu = argMenu
-
-    # def __add__(self, other):
-    #    self.__menu.append(other)
-
-    def getMenu(self):
-        return self.__menu
-
-    def readMenu(self):
-        rFile = open("Menu.txt", 'rb')
-        rawData = rFile.readlines()  # splits menu.txt by line
-        list1 = []
-        list2 = []
-        menu = {}
-        for i in rawData:
-            i = i.splitlines()
-            list1.append(i)  # puts all orders in an array
-        rFile.close()
-        for item in list1:  # this loop cleans up the text in menu.txt and puts the items in a new array
-            item = str(item)
-            item = item.split(' ')
-            item[0] = item[0].strip(' \'[')
-            item[0] = item[0][2:len(item[0])]
-            item[2] = item[2].strip(' \']')
-            item[2] = float(item[2])
-            list2.append(item)
-        for k in range(0, len(list2), 1):  # this loop turns all orders into MenuItems
-            argCode = list2[k][0]
-            argName = list2[k][1]
-            argPrice = list2[k][2]
-            print(argCode + " " + argName + " " + str(argPrice))
-            newMenuItem = MenuItem(argCode, argName, argPrice)
-            self.__menu.append(newMenuItem)
-        return self.__menu
-
-    def __str__(self):
-        for m in range(0, len(self.__menu), 1):
-            print(m)
-
-
-# menu1 = Menu()
-# menu1.readMenu()
-# for i in menu1.readMenu():
-#    print(i)
