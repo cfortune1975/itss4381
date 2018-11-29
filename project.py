@@ -9,41 +9,41 @@ class Order:
         return self.__order
 
     def print_receipt(self):
+        pass
 
-
-    def take_orders(self,argMenu={}):
-        menu1=argMenu
-        validCommands=['a','b','c','d','e','o']
-        command=input("Enter commands separated by spaces, or c to close: ")
-        total=0.00
-        while command.lower()!="c":
-            command=command.split(' ')
-            for cm in range (0,len(command),1):
-                if command[cm] in validCommands and command[cm].lower()!='c':
-                    if command[cm].lower()=='a':
-                        print(menu1['a1'],menu1['a2'])
-                        total+=(menu1['a1']['Price:'])+(menu1['a2']['Price:'])
-                    elif command[cm].lower()=='b':
-                        print(menu1['b1'],menu1['b2'])
-                        total+=(menu1['b1']['Price:'])+(menu1['b2']['Price:'])
-                    elif command[cm].lower()=='d':
-                        print(menu1['d1'],menu1['d2'])
-                        total+=menu1['d1']['Price:']+menu1['d2']['Price:']
-                    elif command[cm].lower()=='e':
-                        print(menu1['e1'],menu1['e2'])
-                        total+=(menu1['e1']['Price:'])+(menu1['e2']['Price:'])
+    def take_orders(self, argMenu={}):
+        menu1 = argMenu
+        validCommands = ['a', 'b', 'c', 'd', 'e', 'o']
+        command = input("Enter commands separated by spaces, or c to close: ")
+        total = 0.00
+        while command.lower() != "c":
+            command = command.split(' ')
+            for cm in range(0, len(command), 1):
+                if command[cm] in validCommands and command[cm].lower() != 'c':
+                    if command[cm].lower() == 'a':
+                        print(menu1['a1'], menu1['a2'])
+                        total += (menu1['a1']['Price:']) + (menu1['a2']['Price:'])
+                    elif command[cm].lower() == 'b':
+                        print(menu1['b1'], menu1['b2'])
+                        total += (menu1['b1']['Price:']) + (menu1['b2']['Price:'])
+                    elif command[cm].lower() == 'd':
+                        print(menu1['d1'], menu1['d2'])
+                        total += menu1['d1']['Price:'] + menu1['d2']['Price:']
+                    elif command[cm].lower() == 'e':
+                        print(menu1['e1'], menu1['e2'])
+                        total += (menu1['e1']['Price:']) + (menu1['e2']['Price:'])
                 elif command[cm].lower() in menu1:
                     print(menu1[command[cm]])
-                    total+=menu1[command[cm]]['Price:']
-                elif command[cm].lower()=='o':
+                    total += menu1[command[cm]]['Price:']
+                elif command[cm].lower() == 'o':
                     print("")
-                elif command[cm].lower()=='c':
+                elif command[cm].lower() == 'c':
                     exit(1)
                 else:
-                    print("Error: "+command[cm]+" is not a valid command!")
-            print("Total: $"+str(total))
-            command=input("Enter commands separated by spaces, or c to cancel: ")
-            total=0.00
+                    print("Error: " + command[cm] + " is not a valid command!")
+            print("Total: $" + str(total))
+            command = input("Enter commands separated by spaces, or c to cancel: ")
+            total = 0.00
 
 
 class Table:
@@ -87,7 +87,7 @@ def read_tables():
     config.close()
 
     # Clean up raw data
-    for i in range(len(raw_data)-1):
+    for i in range(len(raw_data) - 1):
         raw_data[i] = raw_data[i].strip('\n')
         raw_data[i] = raw_data[i].rstrip(' ')
 
@@ -99,63 +99,63 @@ def read_tables():
 
     return table
 
+
 def print_table():
     table1 = read_tables()
     for i in table1:
-        print( i )
-
+        print(i)
 
 
 class MenuItem:
-    def __init__(self,argItemCode,argName,argPrice): #instantiates object
-        self.__code=argItemCode
-        self.__name=argName
-        self.__price=argPrice
+    def __init__(self, argItemCode, argName, argPrice):  # instantiates object
+        self.__code = argItemCode
+        self.__name = argName
+        self.__price = argPrice
+
 
 class Menu:
-    def __init__(self,argMenu=[]):
-        self.__menu=argMenu
+    def __init__(self, argMenu=[]):
+        self.__menu = argMenu
 
-    #def __add__(self, other):
+    # def __add__(self, other):
     #    self.__menu.append(other)
 
     def getMenu(self):
         return self.__menu
 
     def readMenu(self):
-        rFile=open("Menu.txt", 'rb')
-        rawData=rFile.readlines() #splits menu.txt by line
-        list1=[]
-        list2=[]
-        menu={}
+        rFile = open("Menu.txt", 'rb')
+        rawData = rFile.readlines()  # splits menu.txt by line
+        list1 = []
+        list2 = []
+        menu = {}
         for i in rawData:
             i = i.splitlines()
-            list1.append( i ) #puts all orders in an array
+            list1.append(i)  # puts all orders in an array
         rFile.close()
-        for item in list1 : #this loop cleans up the text in menu.txt and puts the items in a new array
-            item = str( item )
+        for item in list1:  # this loop cleans up the text in menu.txt and puts the items in a new array
+            item = str(item)
             item = item.split(' ')
-            item[0]=item[0].strip(' \'[')
-            item[0]=item[0][2:len(item[0])]
-            item[2]=item[2].strip(' \']')
-            item[2] = float( item[2] )
+            item[0] = item[0].strip(' \'[')
+            item[0] = item[0][2:len(item[0])]
+            item[2] = item[2].strip(' \']')
+            item[2] = float(item[2])
             list2.append(item)
-        for k in range(0,len(list2),1): #this loop turns all orders into MenuItems
-            argCode=list2[k][0]
-            argName=list2[k][1]
-            argPrice=list2[k][2]
-            print(argCode+" "+argName+" "+str(argPrice))
-            newMenuItem=MenuItem(argCode,argName,argPrice)
+        for k in range(0, len(list2), 1):  # this loop turns all orders into MenuItems
+            argCode = list2[k][0]
+            argName = list2[k][1]
+            argPrice = list2[k][2]
+            print(argCode + " " + argName + " " + str(argPrice))
+            newMenuItem = MenuItem(argCode, argName, argPrice)
             self.__menu.append(newMenuItem)
         return self.__menu
 
     def __str__(self):
-        for m in range(0,len(self.__menu),1):
+        for m in range(0, len(self.__menu), 1):
             print(m)
 
 
-
-menu1=Menu()
-menu1.readMenu()
-#for i in menu1.readMenu():
+# menu1 = Menu()
+# menu1.readMenu()
+# for i in menu1.readMenu():
 #    print(i)
