@@ -1,3 +1,8 @@
+# Peer Group 10: Restaurant
+# Charles Seidel
+# Chad Fortune
+
+
 class Order:
     def __init__(self, argOrder):
         self.__order = argOrder
@@ -8,8 +13,18 @@ class Order:
     def get_order(self):
         return self.__order
 
-    def print_receipt(self):
-        pass
+    def print_receipt(self, bill):
+        print('\n%15s' % 'Receipt')
+        print('%-20s %5s' % ('item(s)', 'price'))
+        print('%-19s %5s' % ('----------', '-------'))
+        receipt_item = bill[0]  # fill in later
+        receipt_price = bill[1]  # fill in later
+        for i in range(len(receipt_item)):
+            print('%-20s %5.2f' % (receipt_item[i], receipt_price[i]))
+        total = 0  # fill in later
+        print('%27s' % '-------')
+        print('%26.2f' % total)
+
 
     def take_orders(self, argMenu={}):
         menu1 = argMenu
@@ -49,11 +64,11 @@ class Order:
 class Table:
     __available = True
 
-    def __init__(self, argTable, argMax, argGuests=0, argOrder=''):
-        self.__table = argTable
-        self.__maxSeats = argMax
-        self.__guests = argGuests
-        self.__order = list(argOrder)
+    def __init__(self, arg_table, arg_max, arg_guests=0, arg_order=''):
+        self.__table = arg_table
+        self.__maxSeats = arg_max
+        self.__guests = arg_guests
+        self.__order = list(arg_order)
 
     def __str__(self):
         if len(self.__order) == 0:
@@ -75,18 +90,18 @@ class Table:
 
 
 class MenuItem:
-    def __init__(self, argItemCode, argName, argPrice):  # instantiates object
-        self.__code = argItemCode
-        self.__name = argName
-        self.__price = argPrice
+    def __init__(self, arg_item_code, arg_name, arg_price):  # instantiates object
+        self.__code = arg_item_code
+        self.__name = arg_name
+        self.__price = arg_price
 
     def __str__(self):
         return self.__code + ' ' + self.__name + ' ' + str(self.__price)
 
 
 class Menu:
-    def __init__(self, argMenu=[]):
-        self.__menu = argMenu
+    def __init__(self, arg_menu=[]):
+        self.__menu = arg_menu
         self.readMenu()
 
     # def __add__(self, other):
@@ -100,7 +115,7 @@ class Menu:
             rFile = open("Menu.txt", 'rb')
         except IOError:
             print("missing menu menu.txt file.")
-            return self.__menu
+            return []
 
         # splits menu.txt by line
         rawData = rFile.readlines()
@@ -128,7 +143,7 @@ class Menu:
             argName = list2[k][1]
             argPrice = list2[k][2]
             newMenuItem = MenuItem(argCode, argName, argPrice)
-            print(newMenuItem)
+            # print(newMenuItem)
             self.__menu.append(newMenuItem)
 
         return self.__menu
@@ -136,12 +151,6 @@ class Menu:
     def __str__(self):
         for m in range(0, len(self.__menu), 1):
             print(m)
-
-
-menu1 = Menu()
-menu1.readMenu()
-# for i in menu1.readMenu():
-#    print(i)
 
 
 def read_tables():
