@@ -10,8 +10,7 @@ class Order:
     def __str__(self):
         return str(self.__order)
 
-    @property
-    def order(self):
+    def get_order(self):
         return self.__order
 
     def print_receipt(self, bill):
@@ -28,8 +27,9 @@ class Order:
         print('%27s' % '-------')
         print('%26.2f' % total)
 
-    def take_orders(self, argMenu={}):
-        menu1 = argMenu
+    def place_orders(self, table, order):
+        """ Place order for a specific table """
+
         validCommands = ['a', 'b', 'c', 'd', 'e', 'o']
         command = input("Enter commands separated by spaces, or c to close: ")
         total = 0.00
@@ -38,29 +38,26 @@ class Order:
             for cm in range(0, len(command), 1):
                 if command[cm] in validCommands and command[cm].lower() != 'c':
                     if command[cm].lower() == 'a':
-                        print(menu1['a1'], menu1['a2'])
-                        total += (menu1['a1']['Price:']) + (menu1['a2']['Price:'])
+                        print(order['a1'], order['a2'])
+                        total += (order['a1']['Price:']) + (order['a2']['Price:'])
                     elif command[cm].lower() == 'b':
-                        print(menu1['b1'], menu1['b2'])
-                        total += (menu1['b1']['Price:']) + (menu1['b2']['Price:'])
+                        print(order['b1'], order['b2'])
+                        total += (order['b1']['Price:']) + (order['b2']['Price:'])
                     elif command[cm].lower() == 'd':
-                        print(menu1['d1'], menu1['d2'])
-                        total += menu1['d1']['Price:'] + menu1['d2']['Price:']
+                        print(order['d1'], order['d2'])
+                        total += order['d1']['Price:'] + order['d2']['Price:']
                     elif command[cm].lower() == 'e':
-                        print(menu1['e1'], menu1['e2'])
-                        total += (menu1['e1']['Price:']) + (menu1['e2']['Price:'])
-                elif command[cm].lower() in menu1:
-                    print(menu1[command[cm]])
-                    total += menu1[command[cm]]['Price:']
+                        print(order['e1'], order['e2'])
+                        total += (order['e1']['Price:']) + (order['e2']['Price:'])
+                elif command[cm].lower() in order:
+                    print(order[command[cm]])
+                    total += order[command[cm]]['Price:']
                 elif command[cm].lower() == 'o':
                     print("")
                 elif command[cm].lower() == 'c':
                     exit(1)
                 else:
                     print("Error: " + command[cm] + " is not a valid command!")
-            print("Total: $" + str(total))
-            command = input("Enter commands separated by spaces, or c to cancel: ")
-            total = 0.00
 
 
 class Table:
@@ -106,8 +103,10 @@ class Menu:
         self.__menu = arg_menu
         self.readMenu()
 
-    # def __add__(self, other):
-    #    self.__menu.append(other)
+    # not how built in __str__ function works
+    # def __str__(self):
+    #     for m in self.__menu:
+    #         return m
 
     def getMenu(self):
         return self.__menu
@@ -139,9 +138,9 @@ class Menu:
 
         return self.__menu
 
-    def __str__(self):
-        for m in range(0, len(self.__menu), 1):
-            print(m)
+    def print_menu(self):
+        for item in self.__menu:
+            print (item)
 
 
 def read_tables():

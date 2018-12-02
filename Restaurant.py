@@ -8,57 +8,52 @@ import project
 menu = project.Menu()
 tables = project.read_tables()
 
+##############################
+# Testing only remove in final
+# for item in menu.getMenu():
+#     print(item)
+# menu.print_menu()
+# for item in tables:
+#     print(item)
+##############################
+
 # Command options
-commands = {'A': 'lists all appetizers',
-            'B': 'lists all beverages',
-            'E': 'lists all entrees',
-            'D': 'lists all desserts',
-            'C': 'close the program',
-            'O': 'place an order',
-            '#': 'table num required for all options'
+commands = {'P': 'Seat a party with # of guests.',
+            'L': 'List the menu options.',
+            'O': 'Place an order.',
+            'S': 'Serve guests their order.',
+            'C': 'Close the order and show receipt.'
             }
 
 # Take commands from the user
-print('Enter table number followed with command (1 P2')
+print('Enter table number followed with command (1 P2)')
 while True:
-    ui = input('input: ').lower().lstrip()
+    cm = input('input table# with command: ').upper().lstrip().rstrip().split(' ')
 
-    # Check user for valid input
-    if ui[0].upper() not in commands:
-        print('Valid commands:')
+    # user command error checking
+    if not cm[0].isdigit():
+        print('The first part of the command needs to be a table number')
+        continue
+
+    # show valid commands if user entered wrong
+    if cm[1][0] not in commands.keys():
+        print('\nValid commands:')
         for k, v in commands.items():
             print('\t', k, '-', v)
         continue
 
+    # List menu items
+    if cm[1][0] == 'L':
+        menu.print_menu()
+        continue
+
     # Check if user quits
-    if ui == 'c':
+    if cm[1][0] == 'C':
         print('closing.')
         break
 
-    # List menu items
-    if ui == 'a':
-        print('\nAppetizers:')
-        for k, v in menu['appetizers'].items():
-            print('    ' + k + ': %-20s $%.2f' % (v['desc'], v['price']))
-        continue
-    elif ui == 'b':
-        print('\nBeverages:')
-        for k, v in menu['beverages'].items():
-            print('    ' + k + ': %-20s $%.2f' % (v['desc'], v['price']))
-        continue
-    elif ui == 'e':
-        print('\nEntrees:')
-        for k, v in menu['entrees'].items():
-            print('    ' + k + ': %-20s $%.2f' % (v['desc'], v['price']))
-        continue
-    elif ui == 'd':
-        print('\nDesserts:')
-        for k, v in menu['desserts'].items():
-            print('    ' + k + ': %-20s $%.2f' % (v['desc'], v['price']))
-        continue
-
     # Check for a valid order
-    order = ui.split(' ')
+    order = cm.split(' ')
     if len(order) < 2:
         print('\nUsage:')
         print('    O followed by a few codes separated by a space.')
