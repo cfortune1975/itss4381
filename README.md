@@ -5,8 +5,8 @@ Feel free to add more variables if needed. Avoid making drastic changes to exist
  
 Table : 
 status, 
-# of max seats, 
-# of guests if a party is seated, 
+number of max seats, 
+number of guests if a party is seated, 
 order if the party has ordered
 
 MenuItem: 
