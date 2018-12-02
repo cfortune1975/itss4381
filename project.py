@@ -27,34 +27,6 @@ class Order:
         print('%27s' % '-------')
         print('%26.2f' % total)
 
-
-class Table:
-    __available = True
-
-    def __init__(self, arg_table, arg_max, arg_guests=0, arg_order=''):
-        self.__table = arg_table
-        self.__maxSeats = arg_max
-        self.__guests = arg_guests
-        self.__order = list(arg_order)
-
-    def __str__(self):
-        if len(self.__order) == 0:
-            ordering = 'nothing'
-        else:
-            ordering = self.__order
-
-        return 'Table: ' + str(self.__table) + ' has ' + str(self.__maxSeats) + ' seats, with ' + \
-               str(self.__guests) + ' guests and has ordered ' + str(ordering) + '.'
-
-    def is_available(self):
-        return self.__available
-
-    def seat_guest(self):
-        self.__available = False
-
-    def unseat_guest(self):
-        self.__available = True
-
     def place_orders(self, table, order):
         """ Place order for a specific table """
 
@@ -81,6 +53,55 @@ class Table:
                 print("Error: " + command[cm] + " is not a valid command!")
 
 
+class Table:
+    __available = True
+
+    def __init__(self, arg_table, arg_max, arg_guests=0, arg_order=''):
+        self.__table = arg_table
+        self.__maxSeats = arg_max
+        self.__guests = arg_guests
+        self.__order = list(arg_order)
+
+    def __str__(self):
+        if len(self.__order) == 0:
+            ordering = 'nothing'
+        else:
+            ordering = self.__order
+
+        return 'Table: ' + str(self.__table) + ' has ' + str(self.__maxSeats) + ' seats, with ' + \
+               str(self.__guests) + ' guests and has ordered ' + str(ordering) + '.'
+
+    def get_guests(self):
+        return self.__guests
+
+    def get_order(self):
+        return self.__order
+
+    @property
+    def table(self):
+        return self.__table-1
+
+    @property
+    def available(self):
+        return self.__available
+
+    def seat_guest(self, count):
+        if not self.available:
+            print('Table', self.table, 'already occupied!')
+            return
+        if count <= self.__maxSeats:
+            self.__guests = count
+            self.__available = False
+            print('Party of', count, 'assigned to table', self.table)
+        else:
+            print("Sorry, max " + str(self.__maxSeats) +
+                  " seats in Table " + str(self.__table) + "!")
+
+    def unseat_guest(self):
+        self.__available = True
+        self.__guests = 0
+
+
 class MenuItem:
     def __init__(self, arg_item_code, arg_name, arg_price):  # instantiates object
         self.__code = arg_item_code
@@ -96,10 +117,10 @@ class Menu:
         self.__menu = arg_menu
         self.readMenu()
 
-    # not how built in __str__ function works
+    # not how the built in __str__ function works
     # def __str__(self):
     #     for m in self.__menu:
-    #         return m
+    #         print(m)
 
     def getMenu(self):
         return self.__menu
@@ -116,7 +137,7 @@ class Menu:
         raw_data = file.readlines()
         file.close()
 
-        # this loop cleans up the text in menu.txt and puts the items in a new array.
+        # this loop cleans up the text in menu.txt.
         for i in range(len(raw_data) - 1):
             raw_data[i] = raw_data[i].strip('\n')
             raw_data[i] = raw_data[i].rstrip(' ')
@@ -125,15 +146,15 @@ class Menu:
         for k in raw_data:
             temp = k.split(' ')
             arg_code = temp[0]
-            arg_name = temp[1]
+            arg_name = temp[1].replace('_', ' ')
             arg_price = float(temp[2])
-            self.__menu.append(MenuItem(arg_code, arg_name.replace('_', ' '), arg_price))
+            self.__menu.append(MenuItem(arg_code, arg_name, arg_price))
 
         return self.__menu
 
     def print_menu(self):
         for item in self.__menu:
-            print (item)
+            print(item)
 
 
 def read_tables():
@@ -160,10 +181,3 @@ def read_tables():
         table.append(Table(int(temp[0]), int(temp[1])))
 
     return table
-
-
-def print_table():
-    table1 = read_tables()
-    for i in table1:
-        print(i)
-

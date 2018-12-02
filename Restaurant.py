@@ -6,14 +6,14 @@ import project
 
 # Create Menu and Table objects.
 menu = project.Menu()
-tables = project.read_tables()
+table = project.read_tables()
 
 ##############################
 # Testing only remove in final
 # for item in menu.getMenu():
 #     print(item)
 # menu.print_menu()
-# for item in tables:
+# for item in table:
 #     print(item)
 ##############################
 
@@ -28,11 +28,12 @@ commands = {'P': 'Seat a party with # of guests.',
 # Take commands from the user
 print('Enter table number followed with command (1 P2)')
 while True:
-    cm = input('input table# with command: ').upper().lstrip().rstrip().split(' ')
+    cm = input('input: ').upper()
+    cm = cm.lstrip().rstrip().split(' ')
 
     # User command error checking
     if not cm[0].isdigit():
-        print('The first part of the command needs to be a table number')
+        print('The first part of the command needs to be a table number.')
         continue
 
     # Show valid commands if user entered wrong
@@ -44,23 +45,25 @@ while True:
 
     # Seat a party at a table
     if cm[1][0] == 'P':
-        print('seat party')
+        count = int(cm[1][1:])
+        table[int(cm[0])].seat_guest(count)
+
 
     # List menu items
     if cm[1][0] == 'L':
         menu.print_menu()
         continue
 
-    # Get guests order
+    # place the guests order
     if cm[1][0] == 'O':
         # Check for a valid order
-        order = cm[2].split(' ')
+        order = cm[2:]
+
         if len(order) < 2:
             print('\nUsage:')
-            print('    O followed by a few codes separated by a space.')
-            print('    (Sample: O A1 E2 C1 D2)')
+            print('  O followed by a few codes separated by a space.')
+            print('  (Sample: O A1 E2 C1 D2)')
             continue
-
 
     # Close and calculate guest's order
     if cm[1][0] == 'C':

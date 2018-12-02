@@ -1,4 +1,4 @@
-# itss4381 Restaurant
+# ITSS4381 Restaurant
 
 We will use the following classes to complete this assignment.
 Feel free to add more variables if needed. Avoid making drastic changes to existing variables.
