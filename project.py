@@ -10,21 +10,23 @@ class Order:
     def __str__(self):
         return str(self.__order)
 
-    def get_order(self):
+    @property
+    def order(self):
         return self.__order
 
     def print_receipt(self, bill):
         print('\n%15s' % 'Receipt')
         print('%-20s %5s' % ('item(s)', 'price'))
         print('%-19s %5s' % ('----------', '-------'))
+
         receipt_item = bill[0]  # fill in later
         receipt_price = bill[1]  # fill in later
         for i in range(len(receipt_item)):
             print('%-20s %5.2f' % (receipt_item[i], receipt_price[i]))
+
         total = 0  # fill in later
         print('%27s' % '-------')
         print('%26.2f' % total)
-
 
     def take_orders(self, argMenu={}):
         menu1 = argMenu
@@ -111,40 +113,29 @@ class Menu:
         return self.__menu
 
     def readMenu(self):
+        # open table menu.txt file to import.
         try:
-            rFile = open("Menu.txt", 'rb')
+            file = open("Menu.txt", 'r')
         except IOError:
-            print("missing menu menu.txt file.")
+            print("missing menu.txt file.")
             return []
 
-        # splits menu.txt by line
-        rawData = rFile.readlines()
-        rFile.close()
+        # Read in menu information.
+        raw_data = file.readlines()
+        file.close()
 
-        list1 = []
-        for i in rawData:
-            i = i.splitlines()
-            list1.append(i)  # puts all orders in an array
+        # this loop cleans up the text in menu.txt and puts the items in a new array.
+        for i in range(len(raw_data) - 1):
+            raw_data[i] = raw_data[i].strip('\n')
+            raw_data[i] = raw_data[i].rstrip(' ')
 
-        # this loop cleans up the text in menu.txt and puts the items in a new array
-        list2 = []
-        for item in list1:
-            item = str(item)
-            item = item.split(' ')
-            item[0] = item[0].strip(' \'[')
-            item[0] = item[0][2:len(item[0])]
-            item[2] = item[2].strip(' \']')
-            item[2] = float(item[2])
-            list2.append(item)
-
-        # this loop turns all orders into MenuItems
-        for k in range(0, len(list2), 1):
-            argCode = list2[k][0]
-            argName = list2[k][1]
-            argPrice = list2[k][2]
-            newMenuItem = MenuItem(argCode, argName, argPrice)
-            # print(newMenuItem)
-            self.__menu.append(newMenuItem)
+        # this loop turns raw_data into MenuItems.
+        for k in raw_data:
+            temp = k.split(' ')
+            arg_code = temp[0]
+            arg_name = temp[1]
+            arg_price = float(temp[2])
+            self.__menu.append(MenuItem(arg_code, arg_name.replace('_', ' '), arg_price))
 
         return self.__menu
 

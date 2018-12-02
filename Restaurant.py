@@ -9,23 +9,24 @@ menu = project.Menu()
 tables = project.read_tables()
 
 # Command options
-options = {'A': 'lists all appetizers',
-           'B': 'lists all beverages',
-           'E': 'lists all entrees',
-           'D': 'lists all desserts',
-           'C': 'close the program',
-           'O': 'place an order',
-           '#': 'table num required for all options'
-           }
+commands = {'A': 'lists all appetizers',
+            'B': 'lists all beverages',
+            'E': 'lists all entrees',
+            'D': 'lists all desserts',
+            'C': 'close the program',
+            'O': 'place an order',
+            '#': 'table num required for all options'
+            }
 
 # Take commands from the user
+print('Enter table number followed with command (1 P2')
 while True:
     ui = input('input: ').lower().lstrip()
 
     # Check user for valid input
-    if ui[0].upper() not in options:
+    if ui[0].upper() not in commands:
         print('Valid commands:')
-        for k, v in options.items():
+        for k, v in commands.items():
             print('\t', k, '-', v)
         continue
 
