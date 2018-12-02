@@ -4,8 +4,8 @@
 
 
 class Order:
-    def __init__(self, argOrder):
-        self.__order = argOrder
+    def __init__(self, arg_order):
+        self.__order = arg_order
 
     def __str__(self):
         return str(self.__order)
@@ -26,38 +26,6 @@ class Order:
         total = 0  # fill in later
         print('%27s' % '-------')
         print('%26.2f' % total)
-
-    def place_orders(self, table, order):
-        """ Place order for a specific table """
-
-        validCommands = ['a', 'b', 'c', 'd', 'e', 'o']
-        command = input("Enter commands separated by spaces, or c to close: ")
-        total = 0.00
-        while command.lower() != "c":
-            command = command.split(' ')
-            for cm in range(0, len(command), 1):
-                if command[cm] in validCommands and command[cm].lower() != 'c':
-                    if command[cm].lower() == 'a':
-                        print(order['a1'], order['a2'])
-                        total += (order['a1']['Price:']) + (order['a2']['Price:'])
-                    elif command[cm].lower() == 'b':
-                        print(order['b1'], order['b2'])
-                        total += (order['b1']['Price:']) + (order['b2']['Price:'])
-                    elif command[cm].lower() == 'd':
-                        print(order['d1'], order['d2'])
-                        total += order['d1']['Price:'] + order['d2']['Price:']
-                    elif command[cm].lower() == 'e':
-                        print(order['e1'], order['e2'])
-                        total += (order['e1']['Price:']) + (order['e2']['Price:'])
-                elif command[cm].lower() in order:
-                    print(order[command[cm]])
-                    total += order[command[cm]]['Price:']
-                elif command[cm].lower() == 'o':
-                    print("")
-                elif command[cm].lower() == 'c':
-                    exit(1)
-                else:
-                    print("Error: " + command[cm] + " is not a valid command!")
 
 
 class Table:
@@ -86,6 +54,31 @@ class Table:
 
     def unseat_guest(self):
         self.__available = True
+
+    def place_orders(self, table, order):
+        """ Place order for a specific table """
+
+        validCommands = ['a', 'b', 'c', 'd', 'e', 'o']
+        command = input("Enter commands separated by spaces, or c to close: ")
+        command = command.split(' ')
+        for cm in range(0, len(command), 1):
+            if command[cm] in validCommands and command[cm].lower() != 'c':
+                if command[cm].lower() == 'a':
+                    print(order['a1'], order['a2'])
+                elif command[cm].lower() == 'b':
+                    print(order['b1'], order['b2'])
+                elif command[cm].lower() == 'd':
+                    print(order['d1'], order['d2'])
+                elif command[cm].lower() == 'e':
+                    print(order['e1'], order['e2'])
+            elif command[cm].lower() in order:
+                print(order[command[cm]])
+            elif command[cm].lower() == 'o':
+                print("")
+            elif command[cm].lower() == 'c':
+                exit(1)
+            else:
+                print("Error: " + command[cm] + " is not a valid command!")
 
 
 class MenuItem:
