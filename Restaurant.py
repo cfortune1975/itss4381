@@ -6,7 +6,7 @@ import project
 
 # Create Menu and Table objects.
 menu = project.Menu()
-table = project.read_tables()
+tables = project.read_tables()
 
 ##############################
 # Testing only remove in final
@@ -28,12 +28,24 @@ commands = {'P': 'Seat a party with # of guests.',
 # Take commands from the user
 print('Enter table number followed with command (1 P2)')
 while True:
+    # Get user input and clean.
     cm = input('input: ').upper()
     cm = cm.lstrip().rstrip().split(' ')
 
-    # User command error checking
+    # Check first command for table numbers
     if not cm[0].isdigit():
         print('The first part of the command needs to be a table number.')
+        continue
+
+    # check if table exists
+    table = int(cm[0])
+    exists = False
+    for num in range(len(tables)):
+        if table == tables[num].table:
+            exists = True
+
+    if not exists:
+        print('Table:', table, 'does not exist')
         continue
 
     # Show valid commands if user entered wrong
@@ -41,50 +53,42 @@ while True:
         print('\nValid commands:')
         for k, v in commands.items():
             print('\t', k, '-', v)
-        continue
 
     # Seat a party at a table
-    if cm[1][0] == 'P':
+    elif cm[1][0] == 'P':
         count = int(cm[1][1:])
-        table[int(cm[0])].seat_guest(count)
-
+        tables[table].seat_guest(count)
 
     # List menu items
-    if cm[1][0] == 'L':
+    elif cm[1][0] == 'L':
         menu.print_menu()
         continue
 
     # place the guests order
-    if cm[1][0] == 'O':
+    elif cm[1][0] == 'O':
         # Check for a valid order
-        order = cm[2:]
+        has_ordered = cm[2:]
 
-        if len(order) < 2:
+        if len(has_ordered) < 2:
             print('\nUsage:')
-            print('  O followed by a few codes separated by a space.')
+            print('  O followed by menu codes separated by a space.')
             print('  (Sample: O A1 E2 C1 D2)')
             continue
 
+        orders = project.Order(has_ordered)
+
+    # TODO: Charles finish the orders
+
+    # Serve the customer's order
+    elif cm[1][0] == 'S':
+        print('serving guests')
+
     # Close and calculate guest's order
-    if cm[1][0] == 'C':
+    elif cm[1][0] == 'C':
+
         print('closing table.')
-        break
 
 
-# Calculate order
-receiptItem = [] * len(order)
-receiptPrice = [] * len(order)
-total = 0
-for o in range(1, len(order)):
-    # print(order[o])
-    for k in menu.keys():
-        if order[o] in menu[k]:
-            receiptItem.append(menu[k][order[o]]['desc'])
-            receiptPrice.append(menu[k][order[o]]['price'])
-            total += menu[k][order[o]]['price']
-            continue
-        # else:
-        #   print(order[o], 'does not exist in menu.')
-        #   break;
+
 
 
