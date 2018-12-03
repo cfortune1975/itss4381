@@ -26,29 +26,29 @@ class Order:
             return False
 
     # TODO: Charles finish the orders
-    def place_orders(self, table, order):
-        """ Place order for a specific table """
-        # validCommands = ['a', 'b', 'c', 'd', 'e', 'o']
-        # command = input("Enter commands separated by spaces, or c to close: ")
-        # command = command.split(' ')
-        # for cm in range(0, len(command), 1):
-        #     if command[cm] in validCommands and command[cm].lower() != 'c':
-        #         if command[cm].lower() == 'a':
-        #             print(order['a1'], order['a2'])
-        #         elif command[cm].lower() == 'b':
-        #             print(order['b1'], order['b2'])
-        #         elif command[cm].lower() == 'd':
-        #             print(order['d1'], order['d2'])
-        #         elif command[cm].lower() == 'e':
-        #             print(order['e1'], order['e2'])
-        #     elif command[cm].lower() in order:
-        #         print(order[command[cm]])
-        #     elif command[cm].lower() == 'o':
-        #         print("")
-        #     elif command[cm].lower() == 'c':
-        #         exit(1)
-        #     else:
-        #         print("Error: " + command[cm] + " is not a valid command!")
+    #def place_orders(self, table, order):
+    #    """ Place order for a specific table """
+    #     validCommands = ['a', 'b', 'c', 'd', 'e', 's']
+    #     command = input("Enter commands separated by spaces, or c to close: ")
+    #     command = command.split(' ')
+    #     for cm in range(0, len(command), 1):
+    #         if command[cm] in validCommands and command[cm].lower() != 'c':
+    #             if command[cm].lower() == 'a':
+    #                 print(order['a1'], order['a2'])
+    #             elif command[cm].lower() == 'b':
+    #                 print(order['b1'], order['b2'])
+    #             elif command[cm].lower() == 'd':
+    #                 print(order['d1'], order['d2'])
+    #             elif command[cm].lower() == 'e':
+    #                 print(order['e1'], order['e2'])
+    #         elif command[cm].lower() in order:
+    #             print(order[command[cm]])
+    #         elif command[cm].lower() == 'o':
+    #             print("")
+    #         elif command[cm].lower() == 'c':
+    #             exit(1)
+    #         else:
+    #             print("Error: " + command[cm] + " is not a valid command!")
 
     @staticmethod
     def print_receipt(order, menu):
