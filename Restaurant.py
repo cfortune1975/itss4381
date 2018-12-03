@@ -38,26 +38,20 @@ while True:
         continue
 
     # check if table exists
-    table = int(cm[0])
+    table_num = int(cm[0])
     exists = False
     for num in range(len(tables)):
-        if table == tables[num].table:
+        if table_num == tables[num].table:
             exists = True
 
     if not exists:
-        print('Table:', table, 'does not exist')
+        print('Table:', table_num, 'does not exist')
         continue
-
-    # Show valid commands if user entered wrong
-    if cm[1][0] not in commands.keys():
-        print('\nValid commands:')
-        for k, v in commands.items():
-            print('\t', k, '-', v)
 
     # Seat a party at a table
     elif cm[1][0] == 'P':
         count = int(cm[1][1:])
-        tables[table].seat_guest(count)
+        tables[table_num].seat_guest(count)
 
     # List menu items
     elif cm[1][0] == 'L':
@@ -75,20 +69,25 @@ while True:
             print('  (Sample: O A1 E2 C1 D2)')
             continue
 
+        # TODO: Charles finish the orders
         orders = project.Order(has_ordered)
-
-    # TODO: Charles finish the orders
 
     # Serve the customer's order
     elif cm[1][0] == 'S':
-        print('serving guests')
+        if tables[table_num].order:
+            print('Food served in table', table_num)
+            tables[table_num].order = False
+        else:
+            print('Order not placed at Table', table_num, 'yet!')
 
-    # Close and calculate guest's order
+    # TODO: Close and calculate guest's order
     elif cm[1][0] == 'C':
-
         print('closing table.')
+        dummy = project.Order(orders)
+        dummy.print_receipt(orders, menu)
 
-
-
-
-
+    # Show valid commands if user entered wrong
+    else:
+        print('\nValid commands:')
+        for k, v in commands.items():
+            print('\t', k, '-', v)

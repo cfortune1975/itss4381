@@ -15,47 +15,19 @@ class Order:
         return self.__order
 
     # TODO: Charles finish the orders
-    def check_order(self, order):
+    @staticmethod
+    def check_order(order):
         menu = Menu()
         if order in menu.get_menu():
             print('test true')
+            return True
         else:
-            print('No item with code B')
+            print('No items with code', 'X')
+            return False
 
-    def print_receipt(self, order, menu):
-        # Calculate order
-        receipt_item = [] * len(order)
-        receipt_price = [] * len(order)
-        total = 0.0
-        for o in range(len(order)):
-            for k in menu:
-                if order[o] in menu[k]:
-                    receipt_item.append(menu[k][order[o]]['desc'])
-                    receipt_price.append(menu[k][order[o]]['price'])
-                    total += menu[k][order[o]]['price']
-                    continue
-                # else:
-                #   print(order[o], 'does not exist in menu.')
-                #   break;
-
-        print('\n%15s' % 'Receipt')
-        print('%-20s %5s' % ('item(s)', 'price'))
-        print('%-19s %5s' % ('----------', '-------'))
-
-        receipt_item = bill[0]  # fill in later
-        receipt_price = bill[1]  # fill in later
-        for i in range(len(receipt_item)):
-            print('%-20s %5.2f' % (receipt_item[i], receipt_price[i]))
-
-        total = 0  # fill in later
-        print('%27s' % '-------')
-        print('%26.2f' % total)
-
+    # TODO: Charles finish the orders
     def place_orders(self, table, order):
         """ Place order for a specific table """
-        pass
-        #
-
         # validCommands = ['a', 'b', 'c', 'd', 'e', 'o']
         # command = input("Enter commands separated by spaces, or c to close: ")
         # command = command.split(' ')
@@ -77,6 +49,27 @@ class Order:
         #         exit(1)
         #     else:
         #         print("Error: " + command[cm] + " is not a valid command!")
+
+    @staticmethod
+    def print_receipt(order, menu):
+        # Calculate order
+        receipt_item = [] * len(order)
+        receipt_price = [] * len(order)
+        total = 0.0
+        for o in range(len(order)):
+            for k in range(len(menu)):
+                if order[o] in menu[k]:
+                    receipt_item.append(order[1])
+                    receipt_price.append(order[2])
+                    total += order[2]
+
+        print('\n%15s' % 'Receipt')
+        print('%-20s %5s' % ('item(s)', 'price'))
+        print('%-19s %5s' % ('----------', '-------'))
+        for i in range(len(receipt_item)):
+            print('%-20s %5.2f' % (receipt_item[i], receipt_price[i]))
+        print('%27s' % '-------')
+        print('%26.2f' % total)
 
 
 class Table:
@@ -103,6 +96,10 @@ class Table:
     @property
     def order(self):
         return self.__order
+
+    @order.setter
+    def order(self, value):
+        self.__order = value
 
     @property
     def table(self):
