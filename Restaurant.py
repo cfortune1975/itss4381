@@ -63,7 +63,6 @@ while True:
 
     # place the guests order
     elif cm[1][0] == 'O':
-        # Check for a valid order
         has_ordered = cm[2:]
 
         if len(has_ordered) < 1:
@@ -72,13 +71,9 @@ while True:
             print('  (Sample: O A1 E2 C1 D2)')
             continue
 
-        orders = project.Order(has_ordered)
-        print(orders)
-        if orders:
-            tables[table_num].order.append(orders)
-            print(tables[table_num])
-            print(len(tables[table_num].order), 'items ordered for Table', table_num)
-        else:
+        tables[table_num].take_orders(has_ordered)
+
+        if not tables[table_num].order:
             print('Nothing ordered table', table_num)
 
     # Serve the customer's order
