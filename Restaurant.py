@@ -5,7 +5,7 @@
 import project
 
 # Create Menu and Table objects.
-menu = project.Menu([]) #creates an empty array
+menu = project.Menu([])  # creates an empty array
 tables = project.read_tables()
 
 ##############################

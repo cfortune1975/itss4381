@@ -17,9 +17,11 @@ class Order:
     # TODO: Charles finish the orders
     @staticmethod
     def check_order(order):
-        menu = Menu()
+        menu = Menu().get_menu()
         for item in menu:
-            print(menu[item])
+            print(item)
+        return
+
         if order in menu.get_menu():
             print('test true')
             return True
