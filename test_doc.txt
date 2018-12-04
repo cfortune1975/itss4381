@@ -1,0 +1,129 @@
+class Table:
+    def __init__(self, argTableNum, argMaxSeats, argMenu):
+        self.__status = 'Open'
+        self.__maxSeats = argMaxSeats
+        self.__guestsSeated = 0
+        self.__ordered = Order()
+        self.__tableNum = argTableNum
+        self.__menu = argMenu
+
+    def assign(self, numGuests):
+        if self.__status != "Open":
+            return 'Table {} is already taken'.format(self.__tableNum)
+        elif numGuests > self.__maxSeats:
+            return 'Max {} seats at Table {}'.format(self.__maxSeats, self.__tableNum)
+        else:
+            self.__guestsSeated = numGuests
+            self.__status = 'Seated'
+            return 'Party of {} assigned to Table {}'.format(numGuests, self.__tableNum)
+
+    def order(self, order):
+        if self.__status == 'Open':
+            return 'No one is seated at Table {} '.format(self.__tableNum)
+        else:
+            orderList = []
+            for item in order.split():
+                if item in self.__menu.items:
+                    orderList.append(self.__menu.items[item])
+                else:
+                    print('No item with code ' + item)
+            if self.__ordered.items:
+                result = '{} additional items ordered for Table {}'.format(len(orderList), self.__tableNum)
+            else:
+                result = '{} items ordered for Table {}'.format(len(orderList), self.__tableNum)
+            self.__ordered.items.extend(orderList)
+            self.__status = 'Ordered'
+            return result
+
+    def serve(self):
+        if self.__status == 'Open':
+            return 'No one is seated at Table {} '.format(self.__tableNum)
+        elif self.__status == 'Seated':
+            return 'Order not placed at Table {} '.format(self.__tableNum)
+        else:
+            self.__status = 'Served'
+            return 'Food served to table {}'.format(self.__tableNum)
+
+    def close(self):
+        if self.__status == 'Open':
+            return 'No one is seated at Table {} '.format(self.__tableNum)
+        elif self.__status == 'Seated':
+            return 'Order not placed at Table {} '.format(self.__tableNum)
+        elif self.__status == 'Ordered':
+            return 'Food not served for Table {} '.format(self.__tableNum)
+        else:
+            output = 'Table {} is closed. \nGuest Order and Receipt:'.format(self.__tableNum)
+            output += '\n'
+            output += self.__ordered.receipt()
+            self.__status = 'Open'
+            self.__ordered = Order()
+            return output
+
+    def action(self, todo):
+        if todo.startswith('P'):
+            return self.assign(int(todo[1:]))
+        elif todo.startswith('O'):
+            return self.order(todo[1:].strip())
+        elif todo.startswith('S'):
+            return self.serve()
+        elif todo.startswith('C'):
+            return self.close()
+        else:
+            return "Unknown command: {}".format(todo)
+
+
+class MenuItem:
+    def __init__(self, item_code, name, price):
+        self.item_code = item_code
+        self.name = name
+        self.price = price
+
+    def __str__(self):
+        return '{:<20}{}'.format(self.name, self.price)
+
+
+class Menu:
+    def __init__(self):
+        self.items = {}
+        with open('menu.txt') as f:
+            for line in f:
+                code, name, price = line.split()
+                self.items[code] = MenuItem(code, name, float(price))
+
+
+class Order:
+    def __init__(self):
+        self.items = []
+
+    def receipt(self):
+        total = sum(item.price for item in self.items)
+        output = ''
+        for item in self.items:
+            output += '{}\n'.format(item)
+        print("**********************************")
+        output += '**********************************\n\tTotal: ${:.2f}'.format(total)
+        return output
+
+
+def loadTables(menu):
+    tables = {}
+    with open('config.txt') as f:
+        for line in f:
+            tableNum, maxSeats = line.split()
+            tables[tableNum] = Table(tableNum, int(maxSeats), menu)
+    return tables
+
+
+menu = Menu()
+tables = loadTables(menu)
+process = "G"
+
+print("************Restaurant Program*************")
+print("Command List: \nEnter 'P' and number of guest to seat guests\nEnter 'O' followed by menu item codes to create order\nEnter 'S' to change table status as Served\nEnter 'C' to close table and print receipt")
+
+while process != "Q" and process != "q":
+    user = input('\nEnter table number followed by command:  ')
+    table, action = user.split(None, 1)
+    print(tables[table].action(action.upper()))
+    print()
+    process = input("Enter 'Q' to quit, 'C' to Continue: ")
