@@ -14,10 +14,10 @@ tables = project.read_tables()
 #     print(item)
 # menu.print_menu()
 # for item in range(len(tables)):
-tables[0].order = ['a1', 'a2']
-print(tables[0])
+# tables[0].order = ['a1', 'a2']
+# print(tables[0])
 # print(menu.get_key())
-exit()
+# exit()
 ##############################
 
 # Command options.
@@ -72,8 +72,12 @@ while True:
             print('  (Sample: O A1 E2 C1 D2)')
             continue
 
-        # TODO: Charles finish the orders
-        orders = project.Order(has_ordered)
+        orders = project.Order.check_order(has_ordered)
+        if orders:
+            tables[table_num].order = orders
+            print(len(tables[table_num].order), 'items ordered for Table', table_num)
+        else:
+            print('Nothing ordered table', table_num)
 
     # Serve the customer's order
     elif cm[1][0] == 'S':
