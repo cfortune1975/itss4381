@@ -80,9 +80,12 @@ while True:
 
     elif cm[1][0] == 'S':
         if tables[table_num].order:
+            print(tables[table_num].served)
+            print(tables[table_num].order)
             if tables[table_num].available=='Ordered':
-                tables[table_num].served.extend(tables[table_num].order)
-                tables[table_num].order=0
+                tables[table_num].served.extend(tables[table_num].order.get_order())
+                tables[table_num].order=[]
+                print(tables[table_num].served)
                 tables[table_num].available = 'Served'
                 print('Food served in table', table_num)
             else:
@@ -93,7 +96,8 @@ while True:
         print('Closing table. Here is the bill.')
         # dummy = project.Order(orders)
         # dummy.print_receipt(orders, menu)
-        tables[table_num].print_recepit(tables[table_num].served, tables[table_num].menu)
+        print(tables[table_num].served)
+        tables[table_num].order.print_receipt(tables[table_num].served, tables[table_num].menu)
 
     # Show valid commands if user entered wrong
     else:

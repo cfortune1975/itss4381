@@ -18,6 +18,8 @@ class Order:
         # Calculate order
         receipt_item = [] * len(order)
         receipt_price = [] * len(order)
+        print(receipt_item)
+        print(receipt_price)
         total = 0.0
         for o in range(len(order)):
             for k in range(len(menu)):
