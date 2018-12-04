@@ -18,12 +18,15 @@ class Order:
     @staticmethod
     def check_order(order):
         menu = Menu()
+        for item in menu:
+            print(menu[item])
         if order in menu.get_menu():
             print('test true')
             return True
         else:
             print('No items with code', 'X')
             return False
+
 
     # TODO: Charles finish the orders
     #def place_orders(self, table, order):

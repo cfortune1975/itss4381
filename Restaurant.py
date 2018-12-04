@@ -63,7 +63,7 @@ while True:
         # Check for a valid order
         has_ordered = cm[2:]
 
-        if len(has_ordered) < 2:
+        if len(has_ordered) < 1:
             print('\nUsage:')
             print('  O followed by menu codes separated by a space.')
             print('  (Sample: O A1 E2 C1 D2)')
