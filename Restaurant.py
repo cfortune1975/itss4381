@@ -90,10 +90,10 @@ while True:
 
     # TODO: Close and calculate guest's order
     elif cm[1][0] == 'C':
-        print('closing table.')
+        print('Closing table. Here is the bill.')
         # dummy = project.Order(orders)
         # dummy.print_receipt(orders, menu)
-        temp=[]
+        tables[table_num].print_recepit(tables[table_num].served, tables[table_num].menu)
 
     # Show valid commands if user entered wrong
     else:
