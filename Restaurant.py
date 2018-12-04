@@ -72,7 +72,7 @@ while True:
             continue
 
         # TODO: Charles finish the orders
-        orders = project.Order(has_ordered).
+        orders = project.Order(has_ordered)
 
     # Serve the customer's order
     elif cm[1][0] == 'S':

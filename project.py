@@ -29,33 +29,6 @@ class Order:
 
         return validList
 
-    # TODO: Charles finish the orders
-    def take_orders(self, table, order):
-        """ Place order for a specific table """
-
-
-
-        ##command = input("Enter commands separated by spaces, or c to close: ")
-        #command = command.split(' ')
-        #for cm in range(0, len(command), 1):
-        #    if command[cm] in validCommands and command[cm].lower() != 'c':
-        #        if command[cm].lower() == 'a':
-        #            print(order['a1'], order['a2'])
-        #        elif command[cm].lower() == 'b':
-        #            print(order['b1'], order['b2'])
-        #         elif command[cm].lower() == 'd':
-        #             print(order['d1'], order['d2'])
-        #         elif command[cm].lower() == 'e':
-        #             print(order['e1'], order['e2'])
-        #     elif command[cm].lower() in order:
-        #         print(order[command[cm]])
-        #     elif command[cm].lower() == 'o':
-        #         print("")
-        #     elif command[cm].lower() == 'c':
-        #         exit(1)
-        #     else:
-        #         print("Error: " + command[cm] + " is not a valid command!")
-
     @staticmethod
     def print_receipt(order, menu):
         # Calculate order
@@ -81,11 +54,12 @@ class Order:
 class Table:
     __available = True
 
-    def __init__(self, arg_table, arg_max, arg_guests=0, arg_order=False):
+    def __init__(self, arg_table, arg_max, arg_guests=0, arg_order=[]):
         self.__table = arg_table
         self.__maxSeats = arg_max
         self.__guests = arg_guests
-        self.__order = arg_order
+        if arg_order:
+            self.__order = arg_order
 
     def __str__(self):
         if self.__order:
@@ -98,6 +72,12 @@ class Table:
 
     def get_guests(self):
         return self.__guests
+
+    def take_orders(self):
+        """ Place order for a specific table """
+
+        for item in range(len(self.__table)):
+            if item != "c":
 
     @property
     def order(self):
