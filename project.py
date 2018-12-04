@@ -88,13 +88,13 @@ class Table:
         self.__order = arg_order
 
     def __str__(self):
-        if self.__order:
-            ordered = "has"
+        if not self.__order:
+            order = "empty"
         else:
-            ordered = "hasn't"
+            order = self.__order
 
         return 'Table: ' + str(self.__table) + ' has ' + str(self.__maxSeats) + ' seats, with ' + \
-               str(self.__guests) + ' guests and ' + ordered + ' ordered.'
+               str(self.__guests) + ' guests and ordered: ' + str(order)
 
     def get_guests(self):
         return self.__guests
