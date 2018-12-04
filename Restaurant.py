@@ -13,10 +13,11 @@ tables = project.read_tables()
 # for item in menu.getMenu():
 #     print(item)
 # menu.print_menu()
-# for item in table:
-#     print(item)
-#print(menu.get_key())
-#exit()
+# for item in range(len(tables)):
+tables[0].order = ['a1', 'a2']
+print(tables[0])
+# print(menu.get_key())
+exit()
 ##############################
 
 # Command options.
@@ -72,7 +73,7 @@ while True:
             continue
 
         # TODO: Charles finish the orders
-        orders = project.Order(has_ordered).
+        orders = project.Order(has_ordered)
 
     # Serve the customer's order
     elif cm[1][0] == 'S':
@@ -85,8 +86,8 @@ while True:
     # TODO: Close and calculate guest's order
     elif cm[1][0] == 'C':
         print('closing table.')
-        dummy = project.Order(orders)
-        dummy.print_receipt(orders, menu)
+        # dummy = project.Order(orders)
+        # dummy.print_receipt(orders, menu)
 
     # Show valid commands if user entered wrong
     else:
