@@ -57,6 +57,14 @@ class Table:
     def get_guests(self):
         return self.__guests
 
+    @property
+    def menu(self):
+        return self.__menu
+
+    @property
+    def served(self):
+        return self.__served
+
     def take_orders(self, order):
         if self.__available == 'Open':
             print('No one is seated at Table', self.__table)
@@ -103,7 +111,7 @@ class Table:
             print('Party of', count, 'assigned to table', self.table)
         else:
             print("Sorry, max " + str(self.__maxSeats) +
-                  " seats in Table " + str(self.__table) + "!")
+                  " seats in Table " + str(self.table) + "!")
 
     def unseat_guest(self):
         self.__available = True

@@ -5,7 +5,7 @@
 import project
 
 # Create Menu and Table objects.
-menu = project.Menu([])  # creates an empty array
+# menu = project.Menu([])  # creates an empty array
 tables = project.read_tables()
 
 ##############################
@@ -14,8 +14,8 @@ tables = project.read_tables()
 #     print(item)
 # menu.print_menu()
 # for item in range(len(tables)):
+#     print(tables[item])
 # tables[0].order = ['a1', 'a2']
-# print(tables[0])
 # print(menu.get_key())
 # exit()
 ##############################
