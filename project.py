@@ -150,11 +150,12 @@ class Menu:
     #         print(m)
 
     def get_key(self):
-        temp = []
-        for item in range(len(self.__menu))
-            temp = self.get_menu()
+        keys = []
+        for item in range(len(self.__menu)):
+            temp = str(self.__menu[item]).split(' ')
+            keys.append(temp[0])
 
-        return self.__menu[0]
+        return keys
 
     def get_menu(self):
         return self.__menu

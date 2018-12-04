@@ -15,6 +15,8 @@ tables = project.read_tables()
 # menu.print_menu()
 # for item in table:
 #     print(item)
+print(menu.get_key())
+exit()
 ##############################
 
 # Command options.
