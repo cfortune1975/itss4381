@@ -18,16 +18,16 @@ class Order:
     @staticmethod
     def check_order(order):
         menu = Menu().get_menu()
-        for item in menu:
-            print(item)
-        return
-
-        if order in menu.get_menu():
-            print('test true')
-            return True
-        else:
-            print('No items with code', 'X')
-            return False
+        #print(order)
+        #for item in menu:
+        #    print(item)
+        #return
+        for item in range (len(order)):
+            if order in menu:
+                print('test true')
+            else:
+                print('No items with code', order)
+        exit()
 
 
     # TODO: Charles finish the orders
