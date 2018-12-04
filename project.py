@@ -26,7 +26,8 @@ class Order:
                     validList.append(order[item])
                 else:
                     invalidList.append(order[item])
-
+        if invalidList:
+            print('there are no items with code',invalidList)
         return validList
 
     @staticmethod

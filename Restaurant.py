@@ -72,9 +72,11 @@ while True:
             print('  (Sample: O A1 E2 C1 D2)')
             continue
 
-        orders = project.Order.check_order(has_ordered)
+        orders = project.Order(has_ordered)
+        print(orders)
         if orders:
-            tables[table_num].order = orders
+            tables[table_num].order.append(orders)
+            print(tables[table_num])
             print(len(tables[table_num].order), 'items ordered for Table', table_num)
         else:
             print('Nothing ordered table', table_num)
