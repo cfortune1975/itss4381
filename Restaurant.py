@@ -82,18 +82,23 @@ while True:
             print('Nothing ordered table', table_num)
 
     # Serve the customer's order
+
     elif cm[1][0] == 'S':
         if tables[table_num].order:
-            print('Food served in table', table_num)
-            tables[table_num].order = False
-        else:
-            print('Order not placed at Table', table_num, 'yet!')
+            if tables[table_num].available=='Ordered':
+                tables[table_num].served.extend(tables[table_num].order)
+                tables[table_num].order=0
+                tables[table_num].available = 'Served'
+                print('Food served in table', table_num)
+            else:
+                print('Order not placed at Table', table_num, 'yet!')
 
     # TODO: Close and calculate guest's order
     elif cm[1][0] == 'C':
         print('closing table.')
         # dummy = project.Order(orders)
         # dummy.print_receipt(orders, menu)
+        temp=[]
 
     # Show valid commands if user entered wrong
     else:
