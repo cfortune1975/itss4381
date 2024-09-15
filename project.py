@@ -4,9 +4,8 @@
 
 
 class Order:
-    def __init__(self, arg_order):
-        self.__order = arg_order
-        self.check_order(self.__order)
+    def __init__(self):
+        self.__order = []
 
     def __str__(self):
         return str(self.__order)
@@ -14,47 +13,13 @@ class Order:
     def get_order(self):
         return self.__order
 
-    # TODO: Charles finish the orders
-    @staticmethod
-    def check_order(order):
-        menu = Menu()
-        if order in menu.get_menu():
-            print('test true')
-            return True
-        else:
-            print('No items with code', 'X')
-            return False
-
-    # TODO: Charles finish the orders
-    def place_orders(self, table, order):
-        """ Place order for a specific table """
-        # validCommands = ['a', 'b', 'c', 'd', 'e', 'o']
-        # command = input("Enter commands separated by spaces, or c to close: ")
-        # command = command.split(' ')
-        # for cm in range(0, len(command), 1):
-        #     if command[cm] in validCommands and command[cm].lower() != 'c':
-        #         if command[cm].lower() == 'a':
-        #             print(order['a1'], order['a2'])
-        #         elif command[cm].lower() == 'b':
-        #             print(order['b1'], order['b2'])
-        #         elif command[cm].lower() == 'd':
-        #             print(order['d1'], order['d2'])
-        #         elif command[cm].lower() == 'e':
-        #             print(order['e1'], order['e2'])
-        #     elif command[cm].lower() in order:
-        #         print(order[command[cm]])
-        #     elif command[cm].lower() == 'o':
-        #         print("")
-        #     elif command[cm].lower() == 'c':
-        #         exit(1)
-        #     else:
-        #         print("Error: " + command[cm] + " is not a valid command!")
-
     @staticmethod
     def print_receipt(order, menu):
         # Calculate order
         receipt_item = [] * len(order)
         receipt_price = [] * len(order)
+        print(receipt_item)
+        print(receipt_price)
         total = 0.0
         for o in range(len(order)):
             for k in range(len(menu)):
@@ -73,25 +38,54 @@ class Order:
 
 
 class Table:
-    __available = True
-
-    def __init__(self, arg_table, arg_max, arg_guests=0, arg_order=False):
+    def __init__(self, arg_table, arg_max):
         self.__table = arg_table
         self.__maxSeats = arg_max
-        self.__guests = arg_guests
-        self.__order = arg_order
+        self.__available = 'Open'
+        self.__guests = 0
+        self.__order = Order()
+        self.__served = []
+        self.__menu = Menu()
 
     def __str__(self):
-        if self.__order:
-            ordered = "has"
+        if not self.__order:
+            order = "empty"
         else:
-            ordered = "hasn't"
+            order = self.__order
 
         return 'Table: ' + str(self.__table) + ' has ' + str(self.__maxSeats) + ' seats, with ' + \
-               str(self.__guests) + ' guests and ' + ordered + ' ordered.'
+               str(self.__guests) + ' guests and ordered: ' + order
 
     def get_guests(self):
         return self.__guests
+
+    @property
+    def menu(self):
+        return self.__menu
+
+    @property
+    def served(self):
+        return self.__served
+
+    def take_orders(self, order):
+        if self.__available == 'Open':
+            print('No one is seated at Table', self.__table)
+            return
+        else:
+            order_list = []
+            for item in order:
+                if item in self.__menu.menu:
+                    order_list.append(self.__menu.menu[item])
+                else:
+                    print('No item with code ' + item)
+            if self.__order.get_order():
+                print(len(order_list), 'additional items ordered for Table ', self.__table)
+            else:
+                print(len(order_list), 'items ordered for Table', self.__table)
+            self.__order.get_order().extend(order_list)
+            self.__available = 'Ordered'
+
+        return len(order_list)
 
     @property
     def order(self):
@@ -110,16 +104,16 @@ class Table:
         return self.__available
 
     def seat_guest(self, count):
-        if not self.available:
+        if not self.available == 'Open':
             print('Table', self.table, 'already occupied!')
             return
         if count <= self.__maxSeats:
             self.__guests = count
-            self.__available = False
+            self.__available = 'Seated'
             print('Party of', count, 'assigned to table', self.table)
         else:
             print("Sorry, max " + str(self.__maxSeats) +
-                  " seats in Table " + str(self.__table) + "!")
+                  " seats in Table " + str(self.table) + "!")
 
     def unseat_guest(self):
         self.__available = True
@@ -137,17 +131,9 @@ class MenuItem:
 
 
 class Menu:
-    def __init__(self, arg_menu=[]):
-        self.__menu = arg_menu
+    def __init__(self):
+        self.menu = {}
         self.read_menu()
-
-    # not how the built in __str__ function works
-    # def __str__(self):
-    #     for m in self.__menu:
-    #         print(m)
-
-    def get_menu(self):
-        return self.__menu
 
     def read_menu(self):
         # open table menu.txt file to import.
@@ -172,12 +158,12 @@ class Menu:
             arg_code = temp[0]
             arg_name = temp[1].replace('_', ' ')
             arg_price = float(temp[2])
-            self.__menu.append(MenuItem(arg_code, arg_name, arg_price))
+            self.menu[arg_code] = (MenuItem(arg_code, arg_name, arg_price))
 
-        return self.__menu
+        return self.menu
 
     def print_menu(self):
-        for item in self.__menu:
+        for item in self.menu:
             print(item)
 
 

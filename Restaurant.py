@@ -5,7 +5,7 @@
 import project
 
 # Create Menu and Table objects.
-menu = project.Menu()
+# menu = project.Menu([])  # creates an empty array
 tables = project.read_tables()
 
 ##############################
@@ -13,8 +13,11 @@ tables = project.read_tables()
 # for item in menu.getMenu():
 #     print(item)
 # menu.print_menu()
-# for item in table:
-#     print(item)
+# for item in range(len(tables)):
+#     print(tables[item])
+# tables[0].order = ['a1', 'a2']
+# print(menu.get_key())
+# exit()
 ##############################
 
 # Command options.
@@ -60,31 +63,41 @@ while True:
 
     # place the guests order
     elif cm[1][0] == 'O':
-        # Check for a valid order
         has_ordered = cm[2:]
 
-        if len(has_ordered) < 2:
+        if len(has_ordered) < 1:
             print('\nUsage:')
             print('  O followed by menu codes separated by a space.')
             print('  (Sample: O A1 E2 C1 D2)')
             continue
 
-        # TODO: Charles finish the orders
-        orders = project.Order(has_ordered)
+        tables[table_num].take_orders(has_ordered)
+
+        if not tables[table_num].order:
+            print('Nothing ordered table', table_num)
 
     # Serve the customer's order
+
     elif cm[1][0] == 'S':
         if tables[table_num].order:
-            print('Food served in table', table_num)
-            tables[table_num].order = False
-        else:
-            print('Order not placed at Table', table_num, 'yet!')
+            print(tables[table_num].served)
+            print(tables[table_num].order)
+            if tables[table_num].available=='Ordered':
+                tables[table_num].served.extend(tables[table_num].order.get_order())
+                tables[table_num].order=[]
+                print(tables[table_num].served)
+                tables[table_num].available = 'Served'
+                print('Food served in table', table_num)
+            else:
+                print('Order not placed at Table', table_num, 'yet!')
 
     # TODO: Close and calculate guest's order
     elif cm[1][0] == 'C':
-        print('closing table.')
-        dummy = project.Order(orders)
-        dummy.print_receipt(orders, menu)
+        print('Closing table. Here is the bill.')
+        # dummy = project.Order(orders)
+        # dummy.print_receipt(orders, menu)
+        print(tables[table_num].served)
+        tables[table_num].order.print_receipt(tables[table_num].served, tables[table_num].menu)
 
     # Show valid commands if user entered wrong
     else:
